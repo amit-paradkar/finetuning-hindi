@@ -1,0 +1,58 @@
+model:
+  model_name: "unsloth/mistral-7b"
+  max_seq_length: 4096
+  dtype: "bfloat16"
+
+packing:
+  split_ratio: 0.9
+  max_seq_length: 4096
+  shuffle_before_split: true
+  seed: 42
+
+peft_arguments:
+  r = 128,
+  lora_alha = 32,
+  target_modules = [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj",
+    "embed_tokens",
+    "lm_head"
+  ],
+  lora_dropout = 0,
+  bias = "none",
+  use_gradient_checkpointing = "unsloth",
+  random_state = 3407,
+  use_rslora = True,
+  loftq_config = None,
+  
+training_arguments:
+  output_dir: "./checkpoints"
+  num_train_epochs: 3
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  evaluation_strategy: "steps"   # "epoch" or "steps"
+  eval_steps: 100
+  save_steps: 500
+  save_total_limit: 3
+  logging_steps: 50
+  learning_rate: 2e-4
+  weight_decay: 0.01
+  warmup_steps: 100
+  optim: "paged_adamw_8bit"
+  bf16: true
+  logging_dir: "./logs"
+  report_to: "wandb"             # or "tensorboard" or "none"
+  run_name: "unsloth-finetune-run"
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_loss"
+  greater_is_better: false
+
+wandb:
+  project: "unsloth-finetuning"
+  entity: "your_username"

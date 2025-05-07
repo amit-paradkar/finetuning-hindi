@@ -1,0 +1,6 @@
+# Configuration for Lambda Instance
+BASE_URL: "https://cloud.lambdalabs.com/api/v1"
+PRIVATE_KEY: "external_services/lambda_ai/ssh-key/hindi-private_key.pem"
+HEADER_CONTENT_TYPE: "Content-Type: application/json"
+DATA: "name: "hindi-public-key"
+LAMDBA_INSTANCE_NAME: "hindi-finetune-instance"

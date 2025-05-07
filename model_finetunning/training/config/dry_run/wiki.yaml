@@ -1,0 +1,82 @@
+use_peft: false  # 👈 disable LoRA
+
+model_name: "unsloth/mistral-7b"
+load_in_4bit: false  # full-precision if you can
+
+
+
+
+use_peft: false  # 👈 disable LoRA
+
+dataset:
+  type: "wiki"
+  path: "data/wiki.json"
+  max_seq_length: 2048
+
+
+model_name: "unsloth/mistral-7b"
+load_in_4bit: false  # full-precision if you can
+
+#for data in hugging face
+#dataset:
+#  path: "tatsu-lab/alpaca"
+#  type: "chat"
+
+#For data in paraquet format
+#dataset:
+#  path: "data/wiki_articles.parquet"
+#  format: "parquet"
+#  type: "wiki"
+
+#For data in json format
+#dataset:
+#  type: "wiki"
+#  path: "data/wiki.json"
+#  max_seq_length: 2048
+  
+model_name: "unsloth/mistral-7b"
+peft_type: "lora"
+load_in_4bit: true
+
+training_arguments:
+  output_dir: "./dry_run_output"
+  max_steps: 1                  # Dry run - only one training step
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  evaluation_strategy: "no"
+  save_strategy: "no"
+  logging_steps: 1
+  report_to: "none"
+  remove_unused_columns: false
+  fp16: true
+  gradient_accumulation_steps: 1
+  learning_rate: 1e-4
+  logging_first_step: true
+  run_name: "unsloth_dry_run-run"
+
+#peft_config:
+#  r: 128
+#  lora_alpha: 32
+#  lora_dropout: 0
+#  lora_dropout = 0,
+#  bias = "none",
+#  use_gradient_checkpointing = "unsloth",
+#  random_state = 3407,
+#  use_rslora = True,
+#  loftq_config = None,
+#  target_modules:
+#    - q_proj
+#    - k_proj
+#    - v_proj
+#    - o_proj
+#    - gate_proj
+#    - up_proj
+#    - down_proj
+#    - embed_tokens
+#    - lm_head
+
+#push_callback:
+#  repo_name: "aparadkar/finetuned-model-hindi"
+#  push_interval_steps: 2
+#  keep_last_n: 1
+#  private: true
